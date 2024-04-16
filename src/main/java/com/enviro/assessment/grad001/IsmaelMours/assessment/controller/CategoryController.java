@@ -1,21 +1,22 @@
 package com.enviro.assessment.grad001.IsmaelMours.assessment.controller;
 
+import com.enviro.assessment.grad001.IsmaelMours.assessment.exception.ResourceNotFoundException;
 import com.enviro.assessment.grad001.IsmaelMours.assessment.model.Category;
 import com.enviro.assessment.grad001.IsmaelMours.assessment.service.CategoryService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/categories")
+@RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
 @Tag(name = "Category", description = "Category management APIs")
 public class CategoryController {
-
 
     private final CategoryService categoryService;
 
@@ -28,13 +29,15 @@ public class CategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         Category category = categoryService.getCategoryById(id);
-        return category != null ?
-                new ResponseEntity<>(category, HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (category != null) {
+            return new ResponseEntity<>(category, HttpStatus.OK);
+        } else {
+            throw new ResourceNotFoundException("Category not found with id: " + id);
+        }
     }
 
-    @PostMapping("save")
-    public ResponseEntity<Category> addCategory(@Valid @RequestBody Category category) {
+    @PostMapping("/save")
+    public ResponseEntity<Category> addCategory(@RequestBody Category category) {
         Category savedCategory = categoryService.addCategory(category);
         return new ResponseEntity<>(savedCategory, HttpStatus.CREATED);
     }
@@ -46,10 +49,12 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @Valid @RequestBody Category category) {
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category category) {
         Category updatedCategory = categoryService.updateCategory(id, category);
-        return updatedCategory != null ?
-                new ResponseEntity<>(updatedCategory, HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        if (updatedCategory != null) {
+            return new ResponseEntity<>(updatedCategory, HttpStatus.OK);
+        } else {
+            throw new ResourceNotFoundException("Category not found with id: " + id);
+        }
     }
 }

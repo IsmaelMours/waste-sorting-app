@@ -1,7 +1,9 @@
 package com.enviro.assessment.grad001.IsmaelMours.assessment.controller;
 
+import com.enviro.assessment.grad001.IsmaelMours.assessment.model.Category;
 import com.enviro.assessment.grad001.IsmaelMours.assessment.model.DisposalGuidelines;
 import com.enviro.assessment.grad001.IsmaelMours.assessment.service.DisposalGuidelinesService;
+import com.enviro.assessment.grad001.IsmaelMours.assessment.serviceImpl.GuidelinesServiceImpl;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +18,11 @@ import org.springframework.web.bind.annotation.*;
 public class GuidelinesController {
 
 
-    private final DisposalGuidelinesService guidelinesService;
+    private final GuidelinesServiceImpl guidelinesService;
 
     @GetMapping("/{category}")
-    public ResponseEntity<DisposalGuidelines> getGuidelinesByCategory(@PathVariable String category) {
-        DisposalGuidelines guidelines = guidelinesService.getGuidelinesByCategory(category);
+    public ResponseEntity<DisposalGuidelines> getGuidelinesByCategory(@PathVariable Long id) {
+        DisposalGuidelines guidelines = guidelinesService.getGuidelinesByCategory(id);
         return guidelines != null ?
                 new ResponseEntity<>(guidelines, HttpStatus.OK) :
                 new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -1,5 +1,6 @@
 package com.enviro.assessment.grad001.IsmaelMours.assessment.serviceImpl;
 
+import com.enviro.assessment.grad001.IsmaelMours.assessment.model.Category;
 import com.enviro.assessment.grad001.IsmaelMours.assessment.model.DisposalGuidelines;
 import com.enviro.assessment.grad001.IsmaelMours.assessment.repository.DisposalGuidelinesRepository;
 import com.enviro.assessment.grad001.IsmaelMours.assessment.service.DisposalGuidelinesService;
@@ -13,20 +14,32 @@ public class GuidelinesServiceImpl implements DisposalGuidelinesService {
 
 
     private final DisposalGuidelinesRepository guidelinesRepository;
+    private final CategoryServiceImpl categoryService;
 
     @Override
-    public DisposalGuidelines getGuidelinesByCategory(String category) {
+    public DisposalGuidelines getGuidelinesByCategory(Long id) {
+        Category category = categoryService.getCategoryById(id);
         DisposalGuidelines disposalGuidelines = guidelinesRepository.findByCategory(category);
         if (disposalGuidelines == null) {
-            throw new RuntimeException("Disposal guidelines not found for category: " + category);
+            throw new RuntimeException("Disposal guidelines not found for category: " + category.getName());
         }
         return disposalGuidelines;
     }
 
+
     @Override
-    public DisposalGuidelines addGuidelines(@Valid DisposalGuidelines guidelines) {
+    public DisposalGuidelines addGuidelines(@Valid DisposalGuidelines guidelines, Long categoryId) {
+        // Retrieve the category by its ID
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + categoryId));
+
+        // Set the category for the guidelines
+        guidelines.setCategory(category);
+
+        // Save the guidelines
         return guidelinesRepository.save(guidelines);
     }
+
 
     @Override
     public void deleteGuidelines(Long id) {

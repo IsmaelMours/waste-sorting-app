@@ -1,5 +1,6 @@
 package com.enviro.assessment.grad001.IsmaelMours.assessment.serviceImpl;
 
+import com.enviro.assessment.grad001.IsmaelMours.assessment.exception.CategoryNotFoundException;
 import com.enviro.assessment.grad001.IsmaelMours.assessment.model.Category;
 import com.enviro.assessment.grad001.IsmaelMours.assessment.repository.CategoryRepository;
 import com.enviro.assessment.grad001.IsmaelMours.assessment.service.CategoryService;
@@ -25,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category getCategoryById(Long id) {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
-        return optionalCategory.orElse(null);
+        return optionalCategory.orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + id));
     }
 
     @Override
@@ -38,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryRepository.existsById(id)) {
             categoryRepository.deleteById(id);
         } else {
-            throw new RuntimeException("Category not found with id: " + id);
+            throw new CategoryNotFoundException("Category not found with id: " + id);
         }
     }
 
@@ -48,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
             category.setId(id);
             return categoryRepository.save(category);
         } else {
-            throw new RuntimeException("Category not found with id: " + id);
+            throw new CategoryNotFoundException("Category not found with id: " + id);
         }
     }
 }
