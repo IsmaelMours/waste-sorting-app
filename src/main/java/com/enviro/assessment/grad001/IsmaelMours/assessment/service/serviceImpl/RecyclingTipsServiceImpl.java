@@ -26,7 +26,7 @@ public class RecyclingTipsServiceImpl implements RecyclingTipsService {
     private final CategoryRepository categoryRepository;
 
     @Override
-    public List<RecyclingTip> getAllRecyclingTipsByCategory(Category category) {
+    public List<RecyclingTip> getAllRecyclingTipsByCategory(@Valid Category category) {
         return recyclingTipsRepository.findByCategory(category);
     }
 
@@ -47,13 +47,13 @@ public class RecyclingTipsServiceImpl implements RecyclingTipsService {
     }
 
     @Override
-    public RecyclingTip getRecyclingTipById(Long id) throws RecyclingTipNotFoundException {
+    public RecyclingTip getRecyclingTipById(@Valid Long id) throws RecyclingTipNotFoundException {
         return recyclingTipsRepository.findById(id)
                 .orElseThrow(() -> new RecyclingTipNotFoundException("Recycling tip not found with id: " + id));
     }
 
     @Override
-    public void deleteRecyclingTip(Long id) throws RecyclingTipNotFoundException {
+    public void deleteRecyclingTip(@Valid Long id) throws RecyclingTipNotFoundException {
         if (recyclingTipsRepository.existsById(id)) {
             recyclingTipsRepository.deleteById(id);
         } else {
@@ -63,7 +63,7 @@ public class RecyclingTipsServiceImpl implements RecyclingTipsService {
 
     @Override
     @Transactional
-    public RecyclingTip updateRecyclingTip(Long id, String newTip)  {
+    public RecyclingTip updateRecyclingTip(@Valid Long id, String newTip)  {
         RecyclingTip existingTips = recyclingTipsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("recycle tips not found with id: " + id));
         existingTips.setTip(newTip);
@@ -73,7 +73,7 @@ public class RecyclingTipsServiceImpl implements RecyclingTipsService {
 
 
     @Override
-    public List<RecyclingTip> getAllRecyclingTipsByCategoryId(Long categoryId) {
+    public List<RecyclingTip> getAllRecyclingTipsByCategoryId(@Valid Long categoryId) {
         return recyclingTipsRepository.findAllByCategoryId(categoryId);
     }
 

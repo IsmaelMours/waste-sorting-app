@@ -6,6 +6,7 @@ import com.enviro.assessment.grad001.IsmaelMours.assessment.repository.CategoryR
 import com.enviro.assessment.grad001.IsmaelMours.assessment.service.CategoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategoryById(Long id) {
+    public Category getCategoryById(@Valid Long id) {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
         return optionalCategory.orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + id));
     }
@@ -35,12 +36,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(Long id) {
+    public void deleteCategory(@Valid Long id) {
+        Optional<Category> categoryOptional = categoryRepository.findById(id);
+        if (categoryOptional.isPresent()) {
             categoryRepository.deleteById(id);
+        } else {
+            throw new CategoryNotFoundException("Category not found with id: " + id);
+        }
     }
 
     @Override
-    public Category updateCategory(Long id, @Valid Category category) {
+    public Category updateCategory(@Valid Long id, Category category) {
         if (categoryRepository.existsById(id)) {
             category.setId(id);
             return categoryRepository.save(category);
