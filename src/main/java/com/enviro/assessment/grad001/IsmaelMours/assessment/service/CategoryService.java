@@ -1,6 +1,6 @@
 package com.enviro.assessment.grad001.IsmaelMours.assessment.service;
 
-import com.enviro.assessment.grad001.IsmaelMours.assessment.model.Category;
+import com.enviro.assessment.grad001.IsmaelMours.assessment.repository.entity.Category;
 
 import java.util.List;
 

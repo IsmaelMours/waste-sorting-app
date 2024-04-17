@@ -1,7 +1,7 @@
-package com.enviro.assessment.grad001.IsmaelMours.assessment.serviceImpl;
+package com.enviro.assessment.grad001.IsmaelMours.assessment.service.serviceImpl;
 
 import com.enviro.assessment.grad001.IsmaelMours.assessment.exception.CategoryNotFoundException;
-import com.enviro.assessment.grad001.IsmaelMours.assessment.model.Category;
+import com.enviro.assessment.grad001.IsmaelMours.assessment.repository.entity.Category;
 import com.enviro.assessment.grad001.IsmaelMours.assessment.repository.CategoryRepository;
 import com.enviro.assessment.grad001.IsmaelMours.assessment.service.CategoryService;
 import jakarta.validation.Valid;
@@ -36,11 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteCategory(Long id) {
-        if (categoryRepository.existsById(id)) {
             categoryRepository.deleteById(id);
-        } else {
-            throw new CategoryNotFoundException("Category not found with id: " + id);
-        }
     }
 
     @Override

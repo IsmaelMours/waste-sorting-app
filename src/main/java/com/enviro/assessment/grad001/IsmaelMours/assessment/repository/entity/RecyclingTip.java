@@ -1,4 +1,4 @@
-package com.enviro.assessment.grad001.IsmaelMours.assessment.model;
+package com.enviro.assessment.grad001.IsmaelMours.assessment.repository.entity;
 
 import jakarta.persistence.*;
 
@@ -9,7 +9,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Table(name = "recycling_tips")
 public class RecyclingTip {
     @Id

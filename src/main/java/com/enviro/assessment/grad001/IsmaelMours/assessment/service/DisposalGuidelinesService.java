@@ -1,11 +1,19 @@
 package com.enviro.assessment.grad001.IsmaelMours.assessment.service;
 
-import com.enviro.assessment.grad001.IsmaelMours.assessment.model.Category;
-import com.enviro.assessment.grad001.IsmaelMours.assessment.model.DisposalGuidelines;
+import com.enviro.assessment.grad001.IsmaelMours.assessment.exception.DisposalGuidelinesNotFoundException;
+import com.enviro.assessment.grad001.IsmaelMours.assessment.repository.entity.DisposalGuidelines;
+import com.enviro.assessment.grad001.IsmaelMours.assessment.repository.entity.RecyclingTip;
+import jakarta.validation.Valid;
+
+import java.util.List;
 
 public interface DisposalGuidelinesService {
-    DisposalGuidelines getGuidelinesByCategory(Long id);
-    DisposalGuidelines addGuidelines(DisposalGuidelines guidelines);
-    void deleteGuidelines(Long id);
-    DisposalGuidelines updateGuidelines(Long id, DisposalGuidelines guidelines);
+
+    List<DisposalGuidelines> getAllRecyclingTips();
+    DisposalGuidelines updateGuideline(Long id, String updatedGuideline);
+    void deleteGuidelines(Long id) throws DisposalGuidelinesNotFoundException;
+    DisposalGuidelines addGuidelines(@Valid DisposalGuidelines guidelines, Long categoryId);
+
+    List<DisposalGuidelines> getAllDisposalGuidelinesByCategoryId(Long categoryId);
+
 }
