@@ -7,10 +7,10 @@ import com.enviro.assessment.grad001.IsmaelMours.assessment.repository.entity.Ca
 import com.enviro.assessment.grad001.IsmaelMours.assessment.repository.entity.RecyclingTip;
 import com.enviro.assessment.grad001.IsmaelMours.assessment.repository.CategoryRepository;
 import com.enviro.assessment.grad001.IsmaelMours.assessment.repository.RecyclingTipsRepository;
-import com.enviro.assessment.grad001.IsmaelMours.assessment.service.CategoryService;
+
 import com.enviro.assessment.grad001.IsmaelMours.assessment.service.RecyclingTipsService;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +22,10 @@ import java.util.List;
 public class RecyclingTipsServiceImpl implements RecyclingTipsService {
 
     private final RecyclingTipsRepository recyclingTipsRepository;
-    private final CategoryService categoryService;
     private final CategoryRepository categoryRepository;
 
     @Override
-    public List<RecyclingTip> getAllRecyclingTipsByCategory(@Valid Category category) {
+    public List<RecyclingTip> getAllRecyclingTipsByCategory( Category category) {
         return recyclingTipsRepository.findByCategory(category);
     }
 
@@ -38,7 +37,7 @@ public class RecyclingTipsServiceImpl implements RecyclingTipsService {
 
 
     @Override
-    public RecyclingTip addRecyclingTip(@Valid RecyclingTip recyclingTip, Long categoryId) {
+    public RecyclingTip addRecyclingTip( RecyclingTip recyclingTip, Long categoryId) {
         // Retrieve the category by its ID
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + categoryId));
@@ -47,13 +46,13 @@ public class RecyclingTipsServiceImpl implements RecyclingTipsService {
     }
 
     @Override
-    public RecyclingTip getRecyclingTipById(@Valid Long id) throws RecyclingTipNotFoundException {
+    public RecyclingTip getRecyclingTipById( Long id) throws RecyclingTipNotFoundException {
         return recyclingTipsRepository.findById(id)
                 .orElseThrow(() -> new RecyclingTipNotFoundException("Recycling tip not found with id: " + id));
     }
 
     @Override
-    public void deleteRecyclingTip(@Valid Long id) throws RecyclingTipNotFoundException {
+    public void deleteRecyclingTip( Long id) throws RecyclingTipNotFoundException {
         if (recyclingTipsRepository.existsById(id)) {
             recyclingTipsRepository.deleteById(id);
         } else {
@@ -63,7 +62,7 @@ public class RecyclingTipsServiceImpl implements RecyclingTipsService {
 
     @Override
     @Transactional
-    public RecyclingTip updateRecyclingTip(@Valid Long id, String newTip)  {
+    public RecyclingTip updateRecyclingTip( Long id, String newTip)  {
         RecyclingTip existingTips = recyclingTipsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("recycle tips not found with id: " + id));
         existingTips.setTip(newTip);
@@ -73,7 +72,7 @@ public class RecyclingTipsServiceImpl implements RecyclingTipsService {
 
 
     @Override
-    public List<RecyclingTip> getAllRecyclingTipsByCategoryId(@Valid Long categoryId) {
+    public List<RecyclingTip> getAllRecyclingTipsByCategoryId(Long categoryId) {
         return recyclingTipsRepository.findAllByCategoryId(categoryId);
     }
 

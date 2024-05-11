@@ -26,7 +26,7 @@ public class GuidelinesServiceImpl implements DisposalGuidelinesService {
 
 
     @Override
-    public DisposalGuidelines addGuidelines(@Valid DisposalGuidelines guidelines, Long categoryId) {
+    public DisposalGuidelines addGuidelines( DisposalGuidelines guidelines, Long categoryId) {
         // Retrieve the category by its ID
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + categoryId));
@@ -39,7 +39,7 @@ public class GuidelinesServiceImpl implements DisposalGuidelinesService {
     }
 
     @Override
-    public void deleteGuidelines(@Valid  Long id) throws DisposalGuidelinesNotFoundException {
+    public void deleteGuidelines(  Long id) throws DisposalGuidelinesNotFoundException {
         if (guidelinesRepository.existsById(id)) {
             guidelinesRepository.deleteById(id);
         } else {
@@ -54,7 +54,7 @@ public class GuidelinesServiceImpl implements DisposalGuidelinesService {
 
     @Override
     @Transactional
-    public DisposalGuidelines updateGuideline(@Valid Long id, String updatedGuideline) {
+    public DisposalGuidelines updateGuideline(Long id, String updatedGuideline) {
         DisposalGuidelines existingGuideline = guidelinesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Disposal guidelines not found with id: " + id));
 

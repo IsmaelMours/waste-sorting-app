@@ -25,18 +25,18 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategoryById(@Valid Long id) {
+    public Category getCategoryById(Long id) {
         Optional<Category> optionalCategory = categoryRepository.findById(id);
         return optionalCategory.orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + id));
     }
 
     @Override
-    public Category addCategory(@Valid Category category) {
+    public Category addCategory(Category category) {
         return categoryRepository.save(category);
     }
 
     @Override
-    public void deleteCategory(@Valid Long id) {
+    public void deleteCategory( Long id) {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isPresent()) {
             categoryRepository.deleteById(id);
@@ -46,7 +46,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category updateCategory(@Valid Long id, Category category) {
+    public Category updateCategory( Long id, Category category) {
         if (categoryRepository.existsById(id)) {
             category.setId(id);
             return categoryRepository.save(category);
